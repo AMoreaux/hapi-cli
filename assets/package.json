@@ -1,0 +1,27 @@
+{
+  "version": "1.0.0",
+  "description": "Please write a description",
+  "main": "app.js",
+  "scripts": {
+    "start":"node app.js",
+    "test": "lab -C -D -v -l --context-timeout 0 --timeout 10000"
+  },
+  "author": "AMoreaux",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^0.8.5",
+    "boom": "^3.1.2",
+    "colors": "^1.1.2",
+    "config": "^1.10.0",
+    "hapi": "^14.0.0",
+    "hapi-auth-jwt2": "^5.3.2",
+    "hapi-cors-headers": "^1.0.0",
+    "joi": "^8.0.4",
+    "jsonwebtoken": "^5.5.4",
+    "mongoose": "^4.3.6"
+  },
+  "global_dependencies": [
+    "boom",
+    "config"
+  ]
+}

@@ -1,0 +1,12 @@
+[
+  {
+    method: '*',
+
+    path: '/{p*}',
+
+    handler: (request, reply) => {
+
+      reply(Boom.badRequest('route doesn\'t exist'));
+    }
+  }
+]
