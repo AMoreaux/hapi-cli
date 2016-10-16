@@ -8,3 +8,26 @@
 - [ ] Option for auth
 - [ ] Cmd to generate same validation from mongoose to joi
 - [ ] Unit test
+
+
+## Installation
+
+    npm install -g
+
+
+## Create project
+
+    hapi-cli new [project-name]
+
+    cd [project-name]
+
+    npm start
+
+
+## Create model
+
+    generate model [name] [params]
+
+#### example
+
+    generate model user firstname:string
