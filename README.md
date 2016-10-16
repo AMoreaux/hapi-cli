@@ -2,11 +2,7 @@
 ##todo
 
 - [ ] Cmd to generate postman collection by route parameters
-- [ ] Cmd to gene
-- [ ] Earth (Orbit/Moon)
-- [ ] Mars
-- [ ] Jupiter
-- [ ] Saturn
-- [ ] Uranus
-- [ ] Neptune
-- [ ] Comet Haley
+- [ ] Cmd to generate only one route
+- [ ] Cmd to generate only one controller
+- [ ] Option for auth
+- [ ] Cmd to generate same validation from mongoose to joi
