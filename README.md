@@ -26,8 +26,8 @@
 
 ## Create model
 
-    generate model [name] [params]
+    hapi-cli generate model [name] [params]
 
 #### example
 
-    generate model user firstname:string
+    hapi-cli generate model user firstname:string
