@@ -4,5 +4,5 @@
 module.exports = (content) => {
 
 
-  return `'use strict';\rmodule.exports = ${content.replace(/"|(\r\n|\n|\r)/gm, '')}`
+  return `module.exports = ${content.replace(/"|(\r\n|\n|\r)/gm, '')}`
 };

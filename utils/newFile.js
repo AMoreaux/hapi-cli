@@ -4,6 +4,8 @@ const beautify = require('js-beautify').js_beautify;
 const async = require('async');
 const toModule = require('./parseToNodeModule');
 const parseToMongooseSchema = require('./parseToMongooseSchema');
+const parseToController = require('./parseToController');
+const addUseStrict = require('./addUseStrict');
 
 /**
  *
@@ -18,6 +20,7 @@ module.exports = (params, cb) => {
     async.apply(readFile, params),
     async.apply(isNodeModule, params),
     async.apply(parseToMongooseSchema, params),
+    async.apply(replaceEntity, params),
     async.apply(writeFile, params)
   ], (err, result) => {
 
@@ -81,6 +84,24 @@ module.exports = (params, cb) => {
 
     if (params.nodeModule) {
       params.fileContent = toModule(params.fileContent);
+    }
+
+    if(params.outputFilePath === 'controllers/'){
+      params.fileContent = parseToController(params.fileContent);
+    }
+
+    if(params.fileType === 'js'){
+      params.fileContent = addUseStrict(params.fileContent);
+    }
+
+    cb(null);
+  }
+
+  function replaceEntity(params, cb) {
+
+    if(params.entity){
+      params.fileContent = params.fileContent.replace(new RegExp('{{entity}}', 'gm'), params.entity.toLowerCase());
+      params.fileContent = params.fileContent.replace(new RegExp('{{entity.upperFirstChar}}', 'gm'), params.entity.charAt(0).toUpperCase() + params.entity.slice(1));
     }
 
     cb(null);

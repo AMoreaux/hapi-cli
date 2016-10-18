@@ -1,6 +1,6 @@
 module.exports = {
 
-  create: "(request, reply) => { reply({'success': 'user_created'});}",
+  create: "(request, reply) => { const {{entity.upperFirstChar}} = mongoose.model('{{entity}}'); const user = new {{entity.upperFirstChar}}(request.payload); {{entity}}.save((err, {{entity}}) => { if (err) {  return reply(Boom.badRequest(err));  } reply({'success': '{{entity}}_created'}); });}",
 
   update: "(request, reply) => {reply({'success': 'user_updated'});}",
 
@@ -12,7 +12,7 @@ module.exports = {
 
     const result = {};
 
-    params.map((elm) => {
+    params.forEach((elm) => {
       result[elm] = this[elm];
 
     });
