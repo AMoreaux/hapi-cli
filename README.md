@@ -2,6 +2,7 @@
 ##todo
 
 - [ ] Cmd to generate postman collection by route parameters
+- [ ] Cmd to generate API (model + route + controller)
 - [ ] Cmd to generate only one route 
 - [ ] Cmd to generate only one controller (choice crud)
 - [ ] Cmd to generate policies
