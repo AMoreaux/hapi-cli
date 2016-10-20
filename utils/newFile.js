@@ -14,11 +14,12 @@ const addUseStrict = require('./addUseStrict');
  */
 module.exports = (params, cb) => {
 
-
   async.waterfall([
     async.apply(isExist, params),
     async.apply(readFile, params),
     async.apply(isNodeModule, params),
+    async.apply(isController, params),
+    async.apply(isModel, params),
     async.apply(parseToMongooseSchema, params),
     async.apply(replaceEntity, params),
     async.apply(writeFile, params)
@@ -37,8 +38,9 @@ module.exports = (params, cb) => {
 
     const outputFilePath = (params.outputFilePath) ? params.outputFilePath : params.filePath;
     const outputFileType = (params.outputFileType) ? params.outputFileType : params.fileType;
+    const outPutFileName = (params.outputFileName) ? params.outputFileName : params.fileName;
 
-    fs.writeFile(`${params.projectPath}/${outputFilePath}${params.fileName}.${outputFileType}`, beautify(params.fileContent, { indent_size: 4}), (err) => {
+    fs.writeFile(`${params.projectPath}/${outputFilePath}${outPutFileName}.${outputFileType}`, beautify(params.fileContent, { indent_size: 4}), (err) => {
 
       if (err) {
         return cb(`error to generate ${params.fileName}.${outputFileType} file : ${err}`.error);
@@ -86,9 +88,7 @@ module.exports = (params, cb) => {
       params.fileContent = toModule(params.fileContent);
     }
 
-    if(params.outputFilePath === 'controllers/'){
-      params.fileContent = parseToController(params.fileContent);
-    }
+
 
     if(params.fileType === 'js'){
       params.fileContent = addUseStrict(params.fileContent);
@@ -105,5 +105,24 @@ module.exports = (params, cb) => {
     }
 
     cb(null);
+  }
+
+  function isController(params, cb) {
+
+    if(params.outputFilePath === 'controllers/'){
+      params.fileContent = parseToController(params.fileContent);
+    }
+
+    cb(null);
+  }
+
+  function isModel(params, cb) {
+
+    if(params.outputFilePath === 'models/'){
+      // params.fileContent = parseToModel(params.fileContent);
+    }
+
+    cb(null);
+
   }
 };

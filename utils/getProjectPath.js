@@ -3,6 +3,6 @@
  */
 
 module.exports = (name) => {
-  
-  return  (name) ? process.cwd() + '/' + name : process.cwd();
+
+  return (name) ? process.cwd() + '/' + name : process.cwd();
 };
