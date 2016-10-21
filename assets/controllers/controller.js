@@ -12,9 +12,10 @@ module.exports = {
 
     const result = {};
 
+    if(typeof params === 'string') return this[params];
+
     params.forEach((elm) => {
       result[elm] = this[elm];
-
     });
 
     return result;
