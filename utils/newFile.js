@@ -3,7 +3,7 @@ const fs = require('fs');
 const beautify = require('js-beautify').js_beautify;
 const async = require('async');
 const toModule = require('./parseToNodeModule');
-const parseToMongooseSchema = require('./parseToMongooseSchema');
+const parseStringToFunction = require('./parseStringToFunction');
 const parseToController = require('./parseToController');
 const addUseStrict = require('./addUseStrict');
 
@@ -17,10 +17,9 @@ module.exports = (params, cb) => {
   async.waterfall([
     async.apply(isExist, params),
     async.apply(readFile, params),
-    async.apply(isNodeModule, params),
     async.apply(isController, params),
-    async.apply(isModel, params),
-    async.apply(parseToMongooseSchema, params),
+    async.apply(isNodeModule, params),
+    async.apply(parseStringToFunction, params),
     async.apply(replaceEntity, params),
     async.apply(writeFile, params)
   ], (err, result) => {
@@ -30,7 +29,7 @@ module.exports = (params, cb) => {
       process.exit()
     }
 
-    cb();
+    cb(null);
   });
 
 
@@ -109,20 +108,10 @@ module.exports = (params, cb) => {
 
   function isController(params, cb) {
 
-    if(params.outputFilePath === 'controllers/'){
-      params.fileContent = parseToController(params.fileContent);
+    if(params.filePath === 'controllers/'){
+      params.fileContent = parseToController(params);
     }
 
     cb(null);
-  }
-
-  function isModel(params, cb) {
-
-    if(params.outputFilePath === 'models/'){
-      // params.fileContent = parseToModel(params.fileContent);
-    }
-
-    cb(null);
-
   }
 };

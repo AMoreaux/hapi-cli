@@ -3,9 +3,7 @@
  */
 module.exports = (params, cb) => {
 
-  if(params.filePath === 'models/'){
-    params.fileContent = params.fileContent.replace(/"/g, '');
-  }
+  params.fileContent = params.fileContent.replace(/"/g, '');
 
   return (cb) ? cb(null) : params;
 };

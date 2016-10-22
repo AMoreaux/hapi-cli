@@ -1,4 +1,10 @@
-module.exports = (content) => {
+module.exports = (params) => {
+  let module = '';
 
-  return `const mongoose = require('mongoose'); ${content}`;
+  params.modules.forEach((elm) => {
+
+      module = `${module} const ${elm} = require('${elm}');`;
+  });
+
+  return `${module} ${params.fileContent}`;
 };
