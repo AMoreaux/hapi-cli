@@ -1,8 +1,9 @@
 {
   "name": "hapi-starter",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "description": "boilerplate MVC for hapijs with mongodb, mongoose.",
   "main": "./index.js",
+  "preferGlobal": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -2,7 +2,7 @@
 'use strict';
 
 const program = require('commander');
-const newProject = require('./lib/new/index');
+const newProject = require('./lib/new/newProject');
 const types = ['model', 'controller', 'route'];
 
 require('colors').setTheme({

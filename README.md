@@ -12,7 +12,7 @@
 
 ## Installation
 
-    npm install -g
+    npm install -g hapi-cli
 
 
 ## Create project
