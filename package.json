@@ -1,9 +1,13 @@
 {
   "name": "hapi-starter",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "boilerplate MVC for hapijs with mongodb, mongoose.",
   "main": "./index.js",
   "preferGlobal": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AMoreaux/hapi-cli"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
