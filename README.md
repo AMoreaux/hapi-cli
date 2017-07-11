@@ -1,5 +1,5 @@
 # Hapi-cli generator
-##todo
+## todo
 
 - [ ] Cmd to generate postman collection by route parameters
 - [ ] Cmd to generate API (model + route + controller)

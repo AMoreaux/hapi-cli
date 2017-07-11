@@ -1,5 +1,4 @@
-module.exports = (content) => {
+module.exports = (params) => {
 
-
-  return `'use strict';  ${content}`;
+  return `'use strict';  ${params.fileContent}`;
 };

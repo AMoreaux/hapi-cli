@@ -8,14 +8,14 @@ module.exports = {
 
   remove: "(request, reply) => { reply({'success': 'user_delete'}); }",
 
-  get: function (params) {
+  get: function (methodList) {
 
     const result = {};
 
-    if(typeof params === 'string') return this[params];
+    if(typeof methodList === 'string') return this[methodList];
 
-    params.forEach((elm) => {
-      result[elm] = this[elm];
+    methodList.forEach((method) => {
+      result[method] = this[method];
     });
 
     return result;

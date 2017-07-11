@@ -1,10 +1,9 @@
 module.exports = (params) => {
-  let module = '';
+  let modules = '';
 
-  params.modules.forEach((elm) => {
+  for (let module of params.modules) {
+    modules += ` const ${module} = require('${module}');`
+  }
 
-      module = `${module} const ${elm} = require('${elm}');`;
-  });
-
-  return `${module} ${params.fileContent}`;
+  return`${modules} ${params.fileContent}`;
 };

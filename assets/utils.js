@@ -1,8 +1,3 @@
-/**
- * Collection de fonctions utiles
- */
-
-'use strict';
 
 module.exports = {
 

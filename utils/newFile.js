@@ -1,117 +1,90 @@
-const path = require('path');
+const Path = require('path');
 const fs = require('fs');
 const beautify = require('js-beautify').js_beautify;
-const async = require('async');
+const util = require('util');
 const toModule = require('./parseToNodeModule');
-const parseStringToFunction = require('./parseStringToFunction');
+const hookByType = require('./hookByType');
 const parseToController = require('./parseToController');
 const addUseStrict = require('./addUseStrict');
+const fsWriteFilePromise = util.promisify(fs.writeFile);
+const fsReadFilePromise = util.promisify(fs.readFile);
 
 /**
- *
  * @param params {projectPath, filePath, fileName, fileType}
- * @param cb
  */
-module.exports = (params, cb) => {
+module.exports = async (params) => {
 
-  async.waterfall([
-    async.apply(isExist, params),
-    async.apply(readFile, params),
-    async.apply(isController, params),
-    async.apply(isNodeModule, params),
-    async.apply(parseStringToFunction, params),
-    async.apply(replaceEntity, params),
-    async.apply(writeFile, params)
-  ], (err, result) => {
+  const outputFilePath = (params.outputFilePath) ? params.outputFilePath : params.filePath;
+  const outputFileType = (params.outputFileType) ? params.outputFileType : params.fileType;
+  const outPutFileName = (params.outputFileName) ? params.outputFileName : params.fileName;
 
-    if (err) {
-      console.log(`error: ${err}`.error);
-      process.exit()
-    }
+  await isExist(params);
+  await readFile(params);
+  await hookByType[outputFileType](params);
+  await isNodeModule(params);
+  await isController(params);
+  await replaceEntity(params);
+  await writeFile(params);
 
-    cb(null);
-  });
+  async function writeFile(params) {
 
-
-  function writeFile(params, cb) {
-
-    const outputFilePath = (params.outputFilePath) ? params.outputFilePath : params.filePath;
-    const outputFileType = (params.outputFileType) ? params.outputFileType : params.fileType;
-    const outPutFileName = (params.outputFileName) ? params.outputFileName : params.fileName;
-
-    fs.writeFile(`${params.projectPath}/${outputFilePath}${outPutFileName}.${outputFileType}`, beautify(params.fileContent, { indent_size: 4}), (err) => {
-
-      if (err) {
-        return cb(`error to generate ${params.fileName}.${outputFileType} file : ${err}`.error);
-      }
-
+    try{
+      params.fileContent = (outputFileType !== 'json') ? beautify(params.fileContent, { indent_size: 4}) : params.fileContent;
+      await fsWriteFilePromise(`${params.projectPath}/${outputFilePath}${outPutFileName}.${outputFileType}`, params.fileContent);
       console.log(`${params.fileName}.${outputFileType} file created`.info);
-
-      cb(null);
-    });
-  }
-
-
-  function readFile(params, cb) {
-
-    if (typeof params.fileContent === 'object') {
-
-      params.fileContent = JSON.stringify(params.fileContent, null, 4);
-      return cb(null);
+    }catch (err){
+      throw new Error(`error to generate ${params.fileName}.${outputFileType} file : ${err}`);
     }
 
-    const fileReferencePath = path.join(__dirname, '../assets', `${params.filePath}${params.fileName}.${params.fileType}`);
-
-    fs.readFile(fileReferencePath, (err, result) => {
-
-      params.fileContent = result.toString();
-      cb(null);
-    });
   }
 
-  function isExist(params, cb) {
 
-    fs.readFile(`${params.projectPath}/${params.filePath}${params.fileName}.${params.outputFileType}`, (err, result) => {
+  async function readFile(params) {
+    if(!params.hasModel)return;
 
-      if (result) {
-        return cb('file already exist');
-      }
+    const fileReferencePath = Path.join(__dirname, '../assets', `${params.filePath}${params.fileName}.${params.fileType}`);
 
-      cb(null);
-    })
+    try {
+      params.fileContent = await fsReadFilePromise(fileReferencePath);
+    }catch(err) {
+      throw new Error(`error to generate ${params.fileName}.${outputFileType} file : ${err}`)
+    }
+
   }
 
-  function isNodeModule(params, cb) {
+  async function isExist(params) {
+
+    const path = Path.join(params.projectPath, params.filePath, `${params.fileName}.${params.outputFileType}`);
+
+    try{
+      await fsReadFilePromise(path);
+      throw new Error(`file : ${path} already exist`);
+    }catch (e){}
+  }
+
+  function isNodeModule(params) {
 
     if (params.nodeModule) {
-      params.fileContent = toModule(params.fileContent);
+      params.fileContent = toModule(params);
     }
-
-
 
     if(params.fileType === 'js'){
-      params.fileContent = addUseStrict(params.fileContent);
+      params.fileContent = addUseStrict(params);
     }
-
-    cb(null);
   }
 
-  function replaceEntity(params, cb) {
+  function replaceEntity(params) {
 
     if(params.entity){
       params.fileContent = params.fileContent.replace(new RegExp('{{entity}}', 'gm'), params.entity.toLowerCase());
       params.fileContent = params.fileContent.replace(new RegExp('{{entity.upperFirstChar}}', 'gm'), params.entity.charAt(0).toUpperCase() + params.entity.slice(1));
     }
-
-    cb(null);
   }
 
-  function isController(params, cb) {
+  function isController(params) {
 
     if(params.filePath === 'controllers/'){
       params.fileContent = parseToController(params);
     }
-
-    cb(null);
   }
 };

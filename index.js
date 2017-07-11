@@ -17,14 +17,10 @@ program
   .version('0.0.1')
   .command('new [name]')
   .description('create new project')
-  .action((name) => {
+  .action(async (name) => {
 
-    newProject.new(name, () => {
-
-      process.exit();
-    })
-
-
+    await newProject.new(name).catch(err => console.log(`error : ${err}`.error));
+    process.exit();
   });
 
 program
@@ -33,10 +29,10 @@ program
   .description('generate new file')
   .action((type, name, params) => {
 
-    if(types.indexOf(type) === -1){
+    if (types.indexOf(type) === -1) {
 
-       console.log(`type of file not available`.error);
-        process.exit()
+      console.log(`type of file not available`.error);
+      process.exit()
     }
 
     require(`./lib/generate/generate.${type}`).new(name, params, () => {
