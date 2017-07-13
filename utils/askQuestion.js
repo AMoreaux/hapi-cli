@@ -1,3 +1,4 @@
+const style = require('../utils/logger').getTheme().question;
 const rl = require('readline').createInterface({
   input: process.stdin,
   output: process.stdout
@@ -5,7 +6,7 @@ const rl = require('readline').createInterface({
 
 module.exports = (question) => {
   return new Promise((res) => {
-    rl.question(question.question, answer => {
+    rl.question(style(question), answer => {
       res(answer);
     });
   });

@@ -12,8 +12,6 @@ module.exports = {
 
     const result = {};
 
-    if(typeof methodList === 'string') return this[methodList];
-
     methodList.forEach((method) => {
       result[method] = this[method];
     });

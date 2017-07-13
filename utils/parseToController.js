@@ -1,3 +1,5 @@
+const manipulateJS = require('./manipulateJS');
+
 module.exports = (params) => {
   let modules = '';
 
@@ -5,5 +7,5 @@ module.exports = (params) => {
     modules += ` const ${module} = require('${module}');`
   }
 
-  return`${modules} ${params.fileContent}`;
+  return`${modules} ${manipulateJS.breakLine} ${params.fileContent}`;
 };

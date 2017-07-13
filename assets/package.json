@@ -9,16 +9,16 @@
   "author": "AMoreaux",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^0.8.5",
-    "boom": "^3.1.2",
+    "config": "^1.26.1",
+    "bcrypt": "^1.0.2",
+    "boom": "^5.1.0",
     "colors": "^1.1.2",
-    "config": "^1.10.0",
-    "hapi": "^14.0.0",
-    "hapi-auth-jwt2": "^5.3.2",
+    "hapi": "^16.4.3",
+    "hapi-auth-jwt2": "^7.3.0",
     "hapi-cors-headers": "^1.0.0",
-    "joi": "^8.0.4",
-    "jsonwebtoken": "^5.5.4",
-    "mongoose": "^4.3.6"
+    "joi": "^10.6.0",
+    "jsonwebtoken": "^7.4.1",
+    "mongoose": "4.11.1"
   },
   "global_dependencies": [
     "boom",

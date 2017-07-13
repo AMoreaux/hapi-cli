@@ -1,4 +1,6 @@
 
+const Path = require('path')
+
 module.exports = {
 
   /**
@@ -11,13 +13,13 @@ module.exports = {
     path = path[path.length-1] !== '/' ? path + '/' : path;
     let files = [];
     try {
-      files = require('fs').readdirSync(__dirname + '/' + path);
+      files = require('fs').readdirSync(Path.resolve(__dirname, '../..', path ));
     } catch (e) {
       console.log(e);
       process.exit();
     }
     return files.map((file) => {
-      return __dirname + '/' + path + file;
+      return Path.resolve(__dirname, '../..', path, file)
     });
   }
 };

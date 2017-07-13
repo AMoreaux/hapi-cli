@@ -1,7 +1,5 @@
 
-  (function (log, err, exit) {
-    'use strict';
-
+  (function (log) {
 
     /**
      * On récupère le fichier package.json
@@ -24,46 +22,12 @@
     /**
      * Récupération de notre fichier comprenant les méthodes statiques utiles
      */
-    var Utils = require('./utils.js');
+    var Utils = require('./services/utils/utils.js');
 
     /**
      * Création de notre instance mongoose
      */
-    Mongoose.connect(Config.get('mongodb.uri'), Config.get('mongodb.options'));
-
-    /**
-     * log si jamais la connexion avec MongoDB n'a pas pu se faire
-     */
-    Mongoose.connection.on('error', (e)=> {
-      err('Mongoose ne peut ouvrir de connection sur %s', Config.get('mongodb.uri'));
-      err('Options passées:');
-      err(Config.get('mongodb.options'));
-      err('Sortie d\'erreur:');
-      err(e);
-      exit();
-    });
-
-    /**
-     * En cas de succes de connexion avec MongoDB
-     */
-    Mongoose.connection.on('connected', () => {
-      log(colors.green('Connection DB ok', Config.get('mongodb.uri')));
-    });
-
-    /**
-     * Si mongoose a perdu la connexion avec MongoDB
-     */
-    Mongoose.connection.on('disconnected', () => {
-      err(colors.red('Perte de connection MongoDB'));
-
-      /**
-       * On réessai d'ouvrir une connexion au bout de 15 secondes
-       */
-      setTimeout(() => {
-        Mongoose.connect(Config.get('mongodb.uri'), Config.get('mongodb.options'));
-        err('Tentative de reconnexion à MongoDB');
-      }, 15000);
-    });
+    if(Config.mongodb) require('./services/utils/db.js')();
 
     /**
      * On place les models dans une variable globale pour y avoir accès partout
@@ -192,4 +156,4 @@
 
     module.exports = server;
 
-  })(console.log, console.error, process.exit);
+  })(console.log);
