@@ -9,7 +9,8 @@
     "url": "https://github.com/AMoreaux/hapi-cli"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nyc mocha lib/tests/**/*.spec.js",
+    "coverage": "nyc report html _mocha lib/tests/generate.test.js"
   },
   "bin": {
     "hapi-cli": "./index.js",
@@ -23,5 +24,12 @@
     "hoek": "^4.1.1",
     "js-beautify": "^1.6.4"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "chai": "^4.1.0",
+    "chai-fs": "^1.0.0",
+    "chai-json-schema": "^1.5.0",
+    "mocha": "^3.4.2",
+    "mock-stdin": "^0.3.1",
+    "nyc": "^11.0.3"
+  }
 }

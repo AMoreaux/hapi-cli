@@ -3,7 +3,10 @@
 
 const program = require('commander');
 const newProject = require('./lib/new/newProject');
-const logger = require('./utils/logger');
+const logger = require('./lib/utils/logger');
+const newModel = require(`./lib/generate/generate.model`);
+const newController = require(`./lib/generate/generate.controller`);
+const newRoute = require(`./lib/generate/generate.route`);
 
 program
   .version('0.0.1')
@@ -21,51 +24,36 @@ program
 
 program
   .version('0.0.1')
-  .command('generate controller [name]')
-  .option('-m, --methods <methods>', 'List methods for new controller like (create,remove,find,update)')
-  .option('-d, --debug', 'active mode debug')
-  .description('generate new controller')
-  .action(async (name, options) => {
-
-    await require(`./lib/generate/generate.controller`)
-      .new(name, options)
-      .catch(err => logger.error((options.debug) ? err.stack : err));
-
-    process.exit();
-  });
-
-program
-  .version('0.0.1')
-  .command('generate model [name]')
-  .option('-p, --properties <properties>', 'For model list properties like (firstname:String,age:Number)')
-  .option('-d, --debug', 'active mode debug')
+  .command('generate [type] [name]')
+  .option('-m, --methods [methods]', 'List methods for new controller like (create,remove,find,update)')
+  .option('-p, --properties [properties]', 'For model list properties like (firstname:String,age:Number)')
+  .option('-u, --uri [uri]', 'Set uri for your route like (/user)')
+  .option('-v, --verb [verb]', 'Set verbs for your route like (get,post)')
+  .option('-c, --controller [controller]', 'Set the name of the controller which contain handlers')
+  .option('-d, --debug [debug]', 'active mode debug')
   .description('generate new file')
-  .action(async (name, options) => {
+  .action(async (type, name, options) => {
 
-    await require(`./lib/generate/generate.model`)
-      .new(name, options)
-      .catch(err => logger.error((options.debug) ? err.stack : err));
+    switch (type) {
+      case 'controller':
+        await newController.new(name, options).catch((error) => logger.error((options.debug) ? error.stack : error));
+        break;
+      case 'model':
+        await newModel.new(name, options).catch((error) => logger.error((options.debug) ? error.stack : error));
+        break;
+      case 'route':
+        await newRoute.new(name, options).catch((error) => logger.error((options.debug) ? error.stack : error));
+        break;
+      case 'api':
+        await newController.new(name, options)
+          .then(newModel.new)
+          .then(newRoute.new)
+          .catch((error) => logger.error((options.debug) ? error.stack : error))
+        break
 
-    process.exit();
-  });
-
-
-program
-  .version('0.0.1')
-  .command('generate route [name]')
-  .option('-u, --uri <path>', 'Set uri for your route like (/user)')
-  .option('-v, --verb <verb>', 'Set verbs for your route like (get,post)')
-  .option('-c, --controller', 'Set the name of the controller which contain handlers')
-  .option('-d, --debug', 'active mode debug')
-  .description('generate new file')
-  .action(async (name, options) => {
-
-    await require(`./lib/generate/generate.route`)
-      .new(name, options)
-      .catch(err => logger.error((options.debug) ? err.stack : err));
+    }
 
     process.exit();
   });
-
 
 program.parse(process.argv);
