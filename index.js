@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 'use strict';
-
 const program = require('commander');
 const newProject = require('./lib/new/newProject');
 const logger = require('./lib/utils/logger');
@@ -9,10 +8,9 @@ const newController = require(`./lib/generate/generate.controller`);
 const newRoute = require(`./lib/generate/generate.route`);
 
 program
-  .version('0.0.1')
-  .command('new [name]')
+  .command('new <name>]')
+  .description('Create new project.')
   .option('-d, --debug', 'active debug mode')
-  .description('create new project')
   .action(async (name, options) => {
 
     await newProject
@@ -23,15 +21,14 @@ program
   });
 
 program
-  .version('0.0.1')
-  .command('generate [type] [name]')
+  .command('generate <type> <name></name>')
+  .description('generate new file')
   .option('-m, --methods [methods]', 'List methods for new controller like (create,remove,find,update)')
   .option('-p, --properties [properties]', 'For model list properties like (firstname:String,age:Number)')
   .option('-u, --uri [uri]', 'Set uri for your route like (/user)')
-  .option('-v, --verb [verb]', 'Set verbs for your route like (get,post)')
+  .option('-v, --verbs [verbs]', 'Set verbs for your route like (get,post)')
   .option('-c, --controller [controller]', 'Set the name of the controller which contain handlers')
   .option('-d, --debug [debug]', 'active mode debug')
-  .description('generate new file')
   .action(async (type, name, options) => {
 
     switch (type) {
@@ -45,15 +42,20 @@ program
         await newRoute.new(name, options).catch((error) => logger.error((options.debug) ? error.stack : error));
         break;
       case 'api':
-        await newController.new(name, options)
-          .then(newModel.new)
-          .then(newRoute.new)
-          .catch((error) => logger.error((options.debug) ? error.stack : error))
+        try{
+          await newController.new(name, options);
+          await newModel.new(name, options);
+          await newRoute.new(name, options);
+        }catch(error){
+          logger.error((options.debug) ? error.stack : error)
+        }
+
         break
 
     }
 
     process.exit();
   });
+
 
 program.parse(process.argv);

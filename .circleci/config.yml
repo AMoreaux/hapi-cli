@@ -1,0 +1,32 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:latest
+        environment:
+          COVERALLS_REPO_TOKEN: FibklLYULkLZ4Kef0M5TPUwZx4A3pTJ1J
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/mongo:3.4.4
+
+    working_directory: ~/hapi-cli
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - run: npm install
+      - run: sudo npm install nyc mocha chai chai-json-schema chai-fs -g
+      - run: ls
+
+      # run tests!
+      - run: npm run coverage
+
+
