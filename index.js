@@ -8,10 +8,15 @@ const newController = require(`./lib/generate/generate.controller`);
 const newRoute = require(`./lib/generate/generate.route`);
 
 program
-  .command('new <name>]')
+
+
+program
+  .command('new <name>')
   .description('Create new project.')
-  .option('-d, --debug', 'active debug mode')
+  .option('-d, --debug [debug]', 'active mode debug')
   .action(async (name, options) => {
+
+    if(!options.name)options.name = 'new-project';
 
     await newProject
       .new(name)
@@ -21,11 +26,11 @@ program
   });
 
 program
-  .command('generate <type> <name></name>')
+  .command('generate <type> <name>')
   .description('generate new file')
   .option('-m, --methods [methods]', 'List methods for new controller like (create,remove,find,update)')
   .option('-p, --properties [properties]', 'For model list properties like (firstname:String,age:Number)')
-  .option('-u, --uri [uri]', 'Set uri for your route like (/user)')
+  // .option('-u, --uri [uri]', 'Set uri for your route like (/user)')
   .option('-v, --verbs [verbs]', 'Set verbs for your route like (get,post)')
   .option('-c, --controller [controller]', 'Set the name of the controller which contain handlers')
   .option('-d, --debug [debug]', 'active mode debug')

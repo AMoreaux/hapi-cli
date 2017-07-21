@@ -30,50 +30,6 @@
     if(Config.mongodb) require('./services/utils/db.js')();
 
     /**
-     * On place les models dans une variable globale pour y avoir accès partout
-     * La première condition charge les methods et middlewares spécifique au schéma mongoose
-     * La deuxième condition charge les méthodes statiques
-     * La troisième les méthodes sur les objets déjà instancié.
-     */
-    global.Models = {};
-
-    Utils.getFiles('models').forEach((modelFile) => {
-
-      let modelInterface = require(modelFile);
-      let schema = Mongoose.Schema(modelInterface.schema, {versionKey: false});
-      let name = path.basename(modelFile, '.js');
-
-      if (modelInterface.statics) {
-        for (let modelStatic in modelInterface.statics) {
-          schema.statics[modelStatic] = modelInterface.statics[modelStatic];
-        }
-      }
-
-      if (modelInterface.methods) {
-        for (let modelMethod in modelInterface.methods) {
-          schema.methods[modelMethod] = modelInterface.methods[modelMethod];
-        }
-      }
-
-      if (modelInterface.onSchema) {
-        for (let type in modelInterface.onSchema) {
-          for (let func in modelInterface.onSchema[type]) {
-            if(Array.isArray(modelInterface.onSchema[type][func])){
-              for(var i = 0; i < modelInterface.onSchema[type][func].length; i++){
-                schema[type](func, modelInterface.onSchema[type][func][i]);
-              }
-            }else{
-              schema[type](func, modelInterface.onSchema[type][func]);
-            }
-          }
-        }
-      }
-
-      let nameModel = name.charAt(0).toUpperCase() + name.slice(1);
-      Models[nameModel] = Mongoose.model(nameModel, schema);
-    });
-
-    /**
      * On instancie le serveur
      */
     var server = new Hapi.Server();

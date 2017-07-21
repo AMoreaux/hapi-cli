@@ -1,0 +1,7 @@
+ mongodb:
+    image: mongo:latest
+    expose:
+        - "27017"
+    volumes:
+        - "/Users/AMO/Projects/data/db:/data/db"
+    command: mongod --auth

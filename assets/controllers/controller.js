@@ -1,8 +1,23 @@
 module.exports = {
 
-  create: "(request, reply) => { const {{entity.upperFirstChar}} = mongoose.model('{{entity}}'); const user = new {{entity.upperFirstChar}}(request.payload); {{entity}}.save((err, {{entity}}) => { if (err) {  return reply(Boom.badRequest(err));  } reply({'success': '{{entity}}_created'}); });}",
+  create: `(request, reply) => {
+    const user = new {{entity.upperFirstChar}}(request.payload);
+    {{entity}}.save((err, {{entity}}) => { 
+      if (err) {
+        return reply(Boom.badRequest(err));
+      }
+      reply({'success': '{{entity}}_created'});
+    });
+  }`,
 
-  update: "(request, reply) => {reply({'success': 'user_updated'});}",
+  update: `(request, reply) => {
+    {{entity.upperFirstChar}}.findOneAndUpdate({_id: request.query.id}, request.payload, {new: true}).exec((err, result) => {
+      if (err) {
+        return reply(Boom.badRequest(err));
+      }
+      reply(result);
+    })
+   }`,
 
   find: "(request, reply) => { reply({'success': 'user_find'});}",
 

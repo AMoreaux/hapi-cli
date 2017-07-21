@@ -14,8 +14,7 @@
 
 ## Installation
 
-    npm install -g hapi-cli
-
+    npm install -g hapi-starter
 
 ## Create project
 
@@ -62,8 +61,8 @@
     
 #### Examples
 
-    hapi-cli generate route room --uri /room/{id}
-    hapi-cli generate route room --verbs get,post --uri /room/{id}
+    hapi-cli generate route room --uri /room
+    hapi-cli generate route room --verbs get,post --uri /room
     
 ## Create API
 

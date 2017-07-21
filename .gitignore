@@ -39,5 +39,5 @@ jspm_packages
 .node_repl_history
 
 .idea
-
-.coveralls.yml
+/.nyc_output/
+/docker-compose.yml
