@@ -40,4 +40,3 @@ jspm_packages
 
 .idea
 /.nyc_output/
-/docker-compose.yml
