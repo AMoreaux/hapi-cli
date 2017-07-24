@@ -40,3 +40,7 @@ jspm_packages
 
 .idea
 /.nyc_output/
+docker-compose.yml
+.DS_Store
+
+package-lock.json
