@@ -19,9 +19,5 @@
     "joi": "^10.6.0",
     "jsonwebtoken": "^7.4.1",
     "mongoose": "4.11.1"
-  },
-  "global_dependencies": [
-    "boom",
-    "config"
-  ]
+  }
 }

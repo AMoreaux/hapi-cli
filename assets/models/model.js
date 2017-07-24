@@ -1,5 +1,3 @@
-const hoek = require('hoek');
-
 module.exports = {
   createdAt:{
     "type": "Date",

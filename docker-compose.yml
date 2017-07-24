@@ -1,7 +1,7 @@
  mongodb:
     image: mongo:latest
+    ports:
+          - "27017:27017"
     expose:
         - "27017"
-    volumes:
-        - "/Users/AMO/Projects/data/db:/data/db"
-    command: mongod --auth
+    command: mongod
