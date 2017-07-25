@@ -1,6 +1,6 @@
 module.exports = {
 
-  base: `(decoded, request, callback) => {
+  default: `(decoded, request, callback) => {
     jwt.verify(request.headers.authorization, Config.get('server.auth.secretKey'), (err, decoded) => {
   
       if (typeof decoded === 'undefined') {

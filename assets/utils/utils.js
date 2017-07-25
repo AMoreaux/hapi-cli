@@ -1,4 +1,3 @@
-
 const Path = require('path');
 const Mongoose = require('mongoose');
 Mongoose.Promise = global.Promise;
@@ -7,11 +6,11 @@ const Config = require('config');
 
 module.exports = {
 
-  getFiles: function(path) {
-    path = path[path.length-1] !== '/' ? path + '/' : path;
+  getFiles: function (path) {
+    path = path[path.length - 1] !== '/' ? path + '/' : path;
     let files = [];
     try {
-      files = require('fs').readdirSync(Path.resolve(__dirname, '../..', path ));
+      files = require('fs').readdirSync(Path.resolve(__dirname, '../..', path));
     } catch (e) {
       console.log(e);
       process.exit();
@@ -35,13 +34,18 @@ module.exports = {
 
       let policy = require(policyFile);
       let name = path.basename(policyFile, '.js');
+      let namePolicie = name.split('.')[0];
 
-      server.auth.strategy(name, 'jwt',
-        {
-          key: Config.get('server.auth.secretKey'),
-          validateFunc: policy,
-          verifyOptions: {algorithms: ['HS256'], ignoreExpiration: true}
-        });
+
+      server.auth.strategy(namePolicie, 'jwt', {
+        key: Config.get('server.auth.secretKey'),
+        validateFunc: policy,
+        verifyOptions: {algorithms: ['HS256'], ignoreExpiration: true}
+      });
+
+      if (namePolicie === 'default') {
+        server.auth.default('default', 'jwt');
+      }
     });
   },
 
@@ -69,18 +73,18 @@ module.exports = {
       if (modelInterface.onSchema) {
         for (let type in modelInterface.onSchema) {
           for (let func in modelInterface.onSchema[type]) {
-            if(Array.isArray(modelInterface.onSchema[type][func])){
-              for(var i = 0; i < modelInterface.onSchema[type][func].length; i++){
+            if (Array.isArray(modelInterface.onSchema[type][func])) {
+              for (var i = 0; i < modelInterface.onSchema[type][func].length; i++) {
                 schema[type](func, modelInterface.onSchema[type][func][i]);
               }
-            }else{
+            } else {
               schema[type](func, modelInterface.onSchema[type][func]);
             }
           }
         }
       }
 
-      let nameModel =  name.split('.')[0];
+      let nameModel = name.split('.')[0];
       nameModel = nameModel.charAt(0).toUpperCase() + nameModel.slice(1);
       Models[nameModel] = Mongoose.model(nameModel, schema);
     });
