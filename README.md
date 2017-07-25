@@ -4,6 +4,8 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/amoreaux/hapi-cli/badge.svg)](https://snyk.io/test/github/amoreaux/hapi-cli)
 <a href="https://david-dm.org/amoreaux/hapi-cli"><img src="https://david-dm.org/amoreaux/hapi-cli.svg" alt="Dependency Status"></a>
 <a href="https://david-dm.org/amoreaux/hapi-cli/?type=dev"><img src="https://david-dm.org/amoreaux/hapi-cli/dev-status.svg" alt="devDependency Status"></a>
+[![License](http://img.shields.io/npm/l/@ljharb/eslint-config.svg)](http://img.shields.io/npm/l/@ljharb/eslint-config.svg)
+
 # Hapi-cli generator
 
 ## Installation
@@ -70,7 +72,7 @@
 
 #### Example
 
-    hapi-cli generate route owner
+    hapi-cli generate api owner
     
     
 ##  project

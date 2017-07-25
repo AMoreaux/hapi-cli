@@ -1,54 +1,55 @@
-'use strict';
+
 const hoek = require('hoek');
 const getPropertiesFromModel = require('../../lib/utils/getPropertiesFromModel');
+
 module.exports = {
-  '404': {
+  404: {
     handler: `(request, reply) => {
         reply(Boom.badRequest('route does not exist'));
       }`,
-    uri: '/{p*}'
+    uri: '/{p*}',
   },
-  'POST': {
-    handler: "{{entity.upperFirstChar}}Controller.create",
+  POST: {
+    handler: '{{entity.upperFirstChar}}Controller.create',
     uri: '',
     validate: {
-      payload: {}//getPropertiesFromModel
-    }
+      payload: getPropertiesFromModel,
+    },
   },
-  'GET': {
-    handler: "{{entity.upperFirstChar}}Controller.find",
+  GET: {
+    handler: '{{entity.upperFirstChar}}Controller.find',
     uri: '/{id}',
     validate: {
       params: {
-        'id': "Joi.require()"
-      }
-    }
+        id: 'Joi.require()',
+      },
+    },
   },
-  'DELETE': {
-    handler: "{{entity.upperFirstChar}}Controller.remove",
+  DELETE: {
+    handler: '{{entity.upperFirstChar}}Controller.remove',
     uri: '/{id}',
     validate: {
       params: {
-        'id': "Joi.require()"
-      }
-    }
+        id: 'Joi.require()',
+      },
+    },
   },
-  'PUT': {
-    handler: "{{entity.upperFirstChar}}Controller.update",
+  PUT: {
+    handler: '{{entity.upperFirstChar}}Controller.update',
     uri: '/{id}',
     validate: {
       params: {
-        'id': "Joi.require()"
-      }
-    }
+        id: 'Joi.require()',
+      },
+    },
   },
-  get: function (name, projectPath, modelName) {
+  get(name, projectPath, modelName) {
     const route = hoek.merge(this[name], this.defaultConfig(name));
     this.customConfig(name, modelName, route, projectPath);
     return route;
   },
 
-  defaultConfig: function (name) {
+  defaultConfig(name) {
     if (!this[name].validate) return {};
 
     return {
@@ -56,24 +57,23 @@ module.exports = {
         auth: false,
         options: {
           abortEarly: false,
-          allowUnknown: true
-        }
+          allowUnknown: true,
+        },
       },
-      pre: []
+      pre: [],
     };
   },
 
-  customConfig: function (name, modelName, route, projectPath) {
-
+  customConfig(name, modelName, route, projectPath) {
     if (!this[name].validate) return {};
 
-    for (let validate in this[name].validate) {
+    for (const validate in this[name].validate) {
       if (typeof this[name].validate[validate] === 'function') {
-        this[name].validate[validate] = this[name].validate[validate](projectPath, modelName)
+        this[name].validate[validate] = this[name].validate[validate](projectPath, modelName);
       }
     }
 
     route.config.validate = this[name].validate;
-  }
+  },
 };
 

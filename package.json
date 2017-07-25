@@ -1,6 +1,6 @@
 {
   "name": "hapi-starter",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "boilerplate MVC for hapijs with mongodb, mongoose.",
   "main": "./index.js",
   "preferGlobal": true,
@@ -10,7 +10,8 @@
   },
   "scripts": {
     "test": "mocha lib/tests/**/*.spec.js --timeout=10000 ",
-    "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
+    "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
+    "eslint": "eslint lib/**"
   },
   "bin": {
     "hapi-cli": "./index.js",
@@ -29,6 +30,13 @@
     "chai-fs": "^1.0.0",
     "chai-json-schema": "^1.5.0",
     "coveralls": "^2.13.1",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb-base": "^11.3.1",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
     "mocha": "^3.4.2",
     "mocha-lcov-reporter": "^1.3.0",
     "nyc": "^11.0.3"

@@ -1,13 +1,13 @@
 #!/usr/bin/env node
-'use strict';
+
+
 const program = require('commander');
 const newProject = require('./lib/new/newProject');
 const logger = require('./lib/utils/logger');
-const newModel = require(`./lib/generate/generate.model`);
-const newController = require(`./lib/generate/generate.controller`);
-const newRoute = require(`./lib/generate/generate.route`);
 
-program
+const newModel = require('./lib/generate/generate.model');
+const newController = require('./lib/generate/generate.controller');
+const newRoute = require('./lib/generate/generate.route');
 
 
 program
@@ -15,8 +15,7 @@ program
   .description('Create new project.')
   .option('-d, --debug [debug]', 'active mode debug')
   .action(async (name, options) => {
-
-    if(!options.name)options.name = 'new-project';
+    if (!options.name)options.name = 'new-project';
 
     await newProject
       .new(name)
@@ -34,28 +33,30 @@ program
   .option('-c, --controller [controller]', 'Set the name of the controller which contain handlers')
   .option('-d, --debug [debug]', 'active mode debug')
   .action(async (type, name, options) => {
-
     switch (type) {
       case 'controller':
-        await newController.new(name, options).catch((error) => logger.error((options.debug) ? error.stack : error));
+        await newController.new(name, options)
+          .catch(error => logger.error((options.debug) ? error.stack : error));
         break;
       case 'model':
-        await newModel.new(name, options).catch((error) => logger.error((options.debug) ? error.stack : error));
+        await newModel.new(name, options)
+          .catch(error => logger.error((options.debug) ? error.stack : error));
         break;
       case 'route':
-        await newRoute.new(name, options).catch((error) => logger.error((options.debug) ? error.stack : error));
+        await newRoute.new(name, options)
+          .catch(error => logger.error((options.debug) ? error.stack : error));
         break;
       case 'api':
-        try{
+        try {
           await newController.new(name, options);
           await newModel.new(name, options);
           await newRoute.new(name, options);
-        }catch(error){
-          logger.error((options.debug) ? error.stack : error)
+        } catch (error) {
+          logger.error((options.debug) ? error.stack : error);
         }
-
-        break
-
+        break;
+      default:
+        break;
     }
 
     process.exit();
