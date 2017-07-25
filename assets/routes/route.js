@@ -13,7 +13,7 @@ module.exports = {
     handler: '{{entity.upperFirstChar}}Controller.create',
     uri: '',
     validate: {
-      payload: getPropertiesFromModel,
+      payload: {}//getPropertiesFromModel,
     },
   },
   GET: {
