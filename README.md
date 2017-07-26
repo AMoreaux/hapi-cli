@@ -51,7 +51,7 @@
     
 #### Options
 
-    --verbs | -m : List of endpoints for your route (default: get,post,delete,put )
+    --verbs | -v : List of endpoints for your route (default: get,post,delete,put )
     --controller | -c : Name of controller. (default: file's name )
     
 #### Examples
@@ -65,7 +65,7 @@
     
 #### Options
 
-    --verbs | -m : List of endpoints for your route (default: get,post,delete,put )
+    --verbs | -v : List of endpoints for your route (default: get,post,delete,put )
     --controller | -c : Name of controller. (default: file's name )
     --methods | -m : List of methods for your controller (default: create,remove,find,update )
     --properties | -p : List of properties of your entitie. (format: [name]:[type])

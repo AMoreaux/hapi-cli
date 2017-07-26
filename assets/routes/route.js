@@ -21,7 +21,7 @@ module.exports = {
     uri: '/{id}',
     validate: {
       params: {
-        id: 'Joi.require()',
+        id: 'Joi.required()',
       },
     },
   },
@@ -30,7 +30,7 @@ module.exports = {
     uri: '/{id}',
     validate: {
       params: {
-        id: 'Joi.require()',
+        id: 'Joi.required()',
       },
     },
   },
@@ -39,7 +39,7 @@ module.exports = {
     uri: '/{id}',
     validate: {
       params: {
-        id: 'Joi.require()',
+        id: 'Joi.required()',
       },
     },
   },
@@ -55,9 +55,11 @@ module.exports = {
     return {
       config: {
         auth: false,
-        options: {
-          abortEarly: false,
-          allowUnknown: true,
+        validate:{
+          options: {
+            abortEarly: false,
+            allowUnknown: true,
+          },
         },
       },
       pre: [],
@@ -73,7 +75,7 @@ module.exports = {
       }
     }
 
-    route.config.validate = this[name].validate;
+    route.config.validate = hoek.merge(route.config.validate, this[name].validate);
   },
 };
 
