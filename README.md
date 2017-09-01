@@ -8,6 +8,11 @@
 
 # Hapi-cli generator
 
+
+## Files structure
+
+![structure files](https://github.com/AMoreaux/hapi-cli/blob/master/files-structure.png)
+
 ## Installation
 
     npm install -g hapi-starter
