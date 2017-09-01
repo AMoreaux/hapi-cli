@@ -77,12 +77,7 @@
     
 ##  project
     
-### TODOs
-
-- [ ] Cmd to generate postman collection by route parameters
-- [ ] Cmd to generate policies
-- [ ] Cmd to generate same validation from mongoose to joi
-- [ ] Add custom source for generator file
+### TODO
 
 If you'd like the cli to do something that it doesn't do or want to report a bug please use the github issue tracker on github
 
