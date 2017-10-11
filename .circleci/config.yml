@@ -24,7 +24,6 @@ jobs:
       # Download and cache dependencies
       - run: npm install
       - run: sudo npm install nyc mocha chai chai-json-schema chai-fs -g
-      - run: ls
 
       # run tests!
       - run: npm run coverage
