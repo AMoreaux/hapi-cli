@@ -26,6 +26,6 @@ jobs:
       - run: sudo npm install nyc mocha chai chai-json-schema chai-fs -g
 
       # run tests!
-      - run: npm run coverage && exit
+      - run: npm run coverage
 
 
