@@ -44,3 +44,4 @@ docker-compose.yml
 .DS_Store
 
 package-lock.json
+/.coveralls.yml
