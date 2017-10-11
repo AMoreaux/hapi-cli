@@ -10,7 +10,7 @@
   },
   "scripts": {
     "test": "mocha lib/tests/**/*.spec.js",
-    "coverage": "nyc npm test && nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls",
+    "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
     "eslint": "eslint lib/**"
   },
   "bin": {
