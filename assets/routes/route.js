@@ -4,8 +4,8 @@ const getPropertiesFromModel = require('../../lib/utils/getPropertiesFromModel')
 
 module.exports = {
   404: {
-    handler: `(request, reply) => {
-        reply(Boom.badRequest('route does not exist'));
+    handler: `(request, h) => {
+        return Boom.badRequest('route does not exist');
       }`,
     uri: '/{p*}',
   },
@@ -53,7 +53,7 @@ module.exports = {
     if (!this[name].validate) return {};
 
     return {
-      config: {
+      options: {
         auth: false,
         validate:{
           options: {
@@ -75,7 +75,7 @@ module.exports = {
       }
     }
 
-    route.config.validate = hoek.merge(route.config.validate, this[name].validate);
+    route.options.validate = hoek.merge(route.options.validate, this[name].validate);
   },
 };
 

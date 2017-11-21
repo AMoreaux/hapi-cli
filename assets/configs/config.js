@@ -5,7 +5,7 @@ module.exports = (type) => {
         'saltFactor': 10
       },
       'connection': {
-        'port': (type === 'production') ? 80 : 3000,
+        'port': (type === 'production') ? 80 : 3001,
         'routes': {
           'cors': true
         }

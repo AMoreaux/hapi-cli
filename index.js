@@ -4,6 +4,7 @@
 const program = require('commander');
 const newProject = require('./lib/new/newProject');
 const logger = require('./lib/utils/logger');
+const {exec} = require('child_process');
 
 const newModel = require('./lib/generate/generate.model');
 const newController = require('./lib/generate/generate.controller');
@@ -15,7 +16,7 @@ program
   .description('Create new project.')
   .option('-d, --debug [debug]', 'active mode debug')
   .action(async (name, options) => {
-    if (!options.name)options.name = 'new-project';
+    if (!options.name) options.name = 'new-project';
 
     await newProject
       .new(name)
@@ -62,5 +63,30 @@ program
     process.exit();
   });
 
+// program
+//   .command('*', 'default', {isDefault: true})
+//   .action(() => {
+//
+//     exec('hc new --help', (error, stdout, stderr) => {
+//       if (error) {
+//         logger.error(`exec error: ${error}`);
+//         return;
+//       }
+//       logger.log(`stdout: ${stdout}`);
+//       logger.log(`stderr: ${stderr}`);
+//     });
+//
+//     exec('hc generate --help', (error, stdout, stderr) => {
+//       if (error) {
+//         logger.error(`exec error: ${error}`);
+//         return;
+//       }
+//       logger.log(`stdout: ${stdout}`);
+//       logger.log(`stderr: ${stderr}`);
+//     });
+//
+//     process.exit();
+//   });
+//
 
 program.parse(process.argv);

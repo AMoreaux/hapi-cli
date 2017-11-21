@@ -7,17 +7,16 @@
     "test": "lab -C -D -v -l --context-timeout 0 --timeout 10000"
   },
   "author": "AMoreaux",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
-    "config": "^1.26.2",
+    "config": "^1.28.1",
     "bcrypt": "^1.0.3",
-    "boom": "^6.0.0",
+    "boom": "^7.1.1",
     "colors": "^1.1.2",
-    "hapi": "^16.6.2",
+    "hapi": "^17.0.2",
     "hapi-auth-jwt2": "^7.3.0",
-    "hapi-cors-headers": "^1.0.0",
-    "joi": "^11.3.4",
+    "joi": "^13.0.2",
     "jsonwebtoken": "^8.1.0",
-    "mongoose": "4.12.1"
+    "mongoose": "4.13.4"
   }
 }

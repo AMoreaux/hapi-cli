@@ -1,6 +1,6 @@
 module.exports = {
 
-  cryptPassword: `function (next) {
+  hashPassword: `function (next) {
     let user = (this.op === 'update') ? this._update.$set : this;
     if (!user || !user.password || user.password.length === 60) {
       return next();

@@ -1,45 +1,44 @@
 module.exports = {
 
-  create: `(request, reply) => {
-    const {{entity}} = new {{entity.upperFirstChar}}(request.payload);
-    {{entity}}.save((err, {{entity}}) => { 
-      if (err) {
-        return reply(Boom.badRequest(err));
-      }
-      reply({'success': '{{entity}}_created'});
-    });
+  create: `async (request, h) => {
+    try{
+      const {{entity}} = await new {{entity.upperFirstChar}}(request.payload).save();
+      return {'success': '{{entity}}_created', '{{entity}}': {{entity}}};
+    }catch (err){
+      throw Boom.badRequest(err);
+    }
   }`,
 
-  update: `(request, reply) => {
-    {{entity.upperFirstChar}}.findOneAndUpdate({_id: request.params.id}, request.payload, {new: true})
-      .exec((err, result) => {
-        if (err) {
-          return reply(Boom.badRequest(err));
-        }
-        reply(result);
-      })
-    }`,
+  update: `async (request, h) => {
+    try{
+      const result = await {{entity.upperFirstChar}}.findOneAndUpdate({_id: request.params.id}, request.payload, {new: true}).exec();
+      return result;
+    }catch(e){
+      return Boom.badRequest(err);
+    }
+  }`,
 
-  find: `(request, reply) => {
-    {{entity.upperFirstChar}}.find({_id: request.params.id})
-      .exec((err, result) => {
-        if (err) {
-          return reply(Boom.badData(err));
-        }
-        reply(result);
-      })
-    }`,
+  find: `async (request, h) => {
+    try{
+      const query = await {{entity.upperFirstChar}}.find({
+        _id: request.params.id
+      }).exec();
+      return query;
+    }catch(e){
+      return Boom.badData(err);
+    }
+  }`,
 
-  remove: `(request, reply) => {
-    {{entity.upperFirstChar}}.findOneAndRemove({_id: request.params.id})
-      .lean()
-      .exec((err, result) => {
-        if (err) {
-          return reply(Boom.badData(err));
-        }
-        reply({'success': 'user_delete'});  
-      })
-    }`,
+  remove: `async (request, h) => {
+    try{
+      await {{entity.upperFirstChar}}.findOneAndRemove({
+        _id: request.params.id
+      }).exec();
+      return {'success': 'user_delete'};  
+    }catch(e){
+      return Boom.badData(err);
+    }
+  }`,
 
   get: function (methodList) {
 
