@@ -1,7 +1,7 @@
 {
   "name": "hapi-starter",
-  "version": "0.2.0",
-  "description": "boilerplate MVC for hapijs V17 with mongodb, mongoose.",
+  "version": "0.2.1",
+  "description": "boilerplate API - MVC for hapijs V17 with mongodb, mongoose.",
   "main": "./index.js",
   "preferGlobal": true,
   "repository": {

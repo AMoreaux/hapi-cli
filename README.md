@@ -11,7 +11,26 @@
 
 ## Files structure
 
-![structure files](https://github.com/AMoreaux/hapi-cli/blob/master/files-structure.png)
+project/
+├── config/
+│   ├── default.json
+│   └── production.json
+├── controllers/
+│   └── user.controller.js
+├── models/
+│   └── user.model.js
+├── policies/
+│   ├── admin.policy.js
+│   └── default.policy.js
+├── routes/
+│   ├── base.route.js
+│   └── user.route.js
+├── services/
+│   ├── utils/
+│   │   ├── db.js
+│   │   └── utils.js
+│   └── hashPassword.service.js
+└── app.js
 
 ## Installation
 
