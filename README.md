@@ -11,7 +11,9 @@
 
 ## Files structure
 
+```
 project/
+├── app.js
 ├── config/
 │   ├── default.json
 │   └── production.json
@@ -25,13 +27,12 @@ project/
 ├── routes/
 │   ├── base.route.js
 │   └── user.route.js
-├── services/
-│   ├── utils/
-│   │   ├── db.js
-│   │   └── utils.js
-│   └── hashPassword.service.js
-└── app.js
-
+└── services/
+    ├── utils/
+    │   ├── db.js
+    │   └── utils.js
+    └── hashPassword.service.js
+```
 ## Installation
 
     npm install -g hapi-starter
