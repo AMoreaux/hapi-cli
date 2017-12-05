@@ -1,39 +1,39 @@
 module.exports = {
 
-  default: `(decoded, request, callback) => {
+  default: `async (decoded, request) => {
     jwt.verify(request.headers.authorization, Config.get('server.auth.secretKey'), (err, decoded) => {
   
       if (typeof decoded === 'undefined') {
-        return callback(null, false);
+        return false;
       }
   
       User.findOne({_id: decoded.iduser}).exec((err, currentUser) => {
       
         if (!currentUser || err) {
-          return callback(Boom.badRequest());
+          return Boom.badRequest();
         }
  
         request.currentUser = currentUser;
-        return callback(null, true);
+        return true;
       });
     });
   };`,
 
-  admin: `(decoded, request, callback) => {
+  admin: `async (decoded, request) => {
     jwt.verify(request.headers.authorization, Config.get('server.auth.secretKey'), (err, decoded) => {
   
       if (typeof decoded === 'undefined') {
-        return callback(null, false);
+        return false;
       }
   
       User.findOne({_id: decoded.iduser, admin: true}).exec((err, currentUser) => {
   
         if (!currentUser || err) {
-          return callback(Boom.badRequest('You must be admin user'));
+          return Boom.badRequest('You must be admin user');
         }
   
         request.currentUser = currentUser;
-        return callback(null, true);
+        return true;
       });
     });
   };`,

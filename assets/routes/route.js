@@ -1,4 +1,3 @@
-
 const hoek = require('hoek');
 const getPropertiesFromModel = require('../../lib/utils/getPropertiesFromModel');
 
@@ -8,38 +7,47 @@ module.exports = {
         return Boom.badRequest('route does not exist');
       }`,
     uri: '/{p*}',
+    options: {}
   },
   POST: {
     handler: '{{entity.upperFirstChar}}Controller.create',
     uri: '',
-    validate: {
-      payload: {}//getPropertiesFromModel,
-    },
+    options: {
+      validate: {
+        payload: {}//getPropertiesFromModel,
+      },
+    }
   },
   GET: {
     handler: '{{entity.upperFirstChar}}Controller.find',
     uri: '/{id}',
-    validate: {
-      params: {
-        id: 'Joi.required()',
+    options: {
+      validate: {
+        params: {
+          id: 'Joi.required()',
+        },
       },
     },
   },
   DELETE: {
     handler: '{{entity.upperFirstChar}}Controller.remove',
     uri: '/{id}',
-    validate: {
-      params: {
-        id: 'Joi.required()',
+    options: {
+      validate: {
+        params: {
+          id: 'Joi.required()',
+        },
       },
     },
   },
   PUT: {
     handler: '{{entity.upperFirstChar}}Controller.update',
     uri: '/{id}',
-    validate: {
-      params: {
-        id: 'Joi.required()',
+    options: {
+      validate: {
+        params: {
+          id: 'Joi.required()',
+        },
       },
     },
   },
@@ -50,12 +58,12 @@ module.exports = {
   },
 
   defaultConfig(name) {
-    if (!this[name].validate) return {};
+    // if (!this[name].options.validate) return {};
 
     return {
       options: {
         auth: false,
-        validate:{
+        validate: {
           options: {
             abortEarly: false,
             allowUnknown: true,
@@ -67,15 +75,15 @@ module.exports = {
   },
 
   customConfig(name, modelName, route, projectPath) {
-    if (!this[name].validate) return {};
+    if (!this[name].options.validate) return {};
 
-    for (const validate in this[name].validate) {
-      if (typeof this[name].validate[validate] === 'function') {
-        this[name].validate[validate] = this[name].validate[validate](projectPath, modelName);
+    for (const validate in this[name].options.validate) {
+      if (typeof this[name].options.validate[validate] === 'function') {
+        this[name].options.validate[validate] = this[name].options.validate[validate](projectPath, modelName);
       }
     }
 
-    route.options.validate = hoek.merge(route.options.validate, this[name].validate);
+    route.options.validate = hoek.merge(route.options.validate, this[name].options.validate);
   },
 };
 

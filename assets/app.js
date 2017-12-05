@@ -1,3 +1,4 @@
+'use strict';
 const appPackage = require(__dirname + '/package.json');
 const Hapi = require('hapi');
 const Hapiauthjwt = require('hapi-auth-jwt2');
@@ -7,35 +8,34 @@ const utils = require('./services/utils/utils.js');
 const db = require('./services/utils/db.js')
 
 
-db.connect();
+async function start() {
 
-utils.addModels();
+  try {
+    db.connect();
 
-const connectionConfig = Config.get('server.connection')
+    utils.addModels();
 
-const server = new Hapi.Server(JSON.parse(JSON.stringify(connectionConfig)))
+    const connectionConfig = Config.get('server.connection')
 
-server.register({
-  plugin: Hapiauthjwt
-}).then(() => {
-  utils.addPolicies(server)
-});
+    const server = new Hapi.Server(JSON.parse(JSON.stringify(connectionConfig)))
 
+    await server.register({
+      plugin: Hapiauthjwt
+    })
 
-utils.addRoute(server);
+    utils.addPolicies(server)
 
-server.start()
-  .then(() => {
+    utils.addRoute(server);
+
+    await server.start()
     console.log(colors.green('%s %s started on %s'), appPackage.name, appPackage.version, server.info.uri);
 
-  })
-  .catch((err) => {
-    console.log('>>>>>>>>>>', err)
-  })
+    module.exports = server;
 
+  } catch (err) {
+    console.log(err)
+    process.exit(0)
+  }
+}
 
-module.exports = server;
-
-
-
-
+start()

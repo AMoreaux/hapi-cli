@@ -39,7 +39,7 @@ module.exports = {
 
       server.auth.strategy(namePolicie, 'jwt', {
         key: Config.get('server.auth.secretKey'),
-        validateFunc: policy,
+        validate: policy,
         verifyOptions: {algorithms: ['HS256'], ignoreExpiration: true}
       });
 
