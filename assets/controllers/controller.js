@@ -3,7 +3,7 @@ module.exports = {
   create: `async (request, h) => {
     try{
       const {{entity}} = await new {{entity.upperFirstChar}}(request.payload).save();
-      return {'success': '{{entity}}_created', '{{entity}}': {{entity}}};
+      return h.response({'success': '{{entity}}_created', '{{entity}}': {{entity}}}).code(201);
     }catch (err){
       throw Boom.badRequest(err);
     }

@@ -1,6 +1,6 @@
 {
   "name": "hapi-starter",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "boilerplate API - MVC for hapijs V17 with mongodb, mongoose.",
   "main": "./index.js",
   "preferGlobal": true,
@@ -23,10 +23,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "chalk": "^2.3.0",
-    "commander": "^2.11.0",
-    "hoek": "^5.0.2",
-    "js-beautify": "^1.7.4"
+    "chalk": "^2.3.2",
+    "commander": "^2.15.0",
+    "hoek": "^5.0.3",
+    "js-beautify": "^1.7.5"
   },
   "devDependencies": {
     "chai": "^4.1.2",

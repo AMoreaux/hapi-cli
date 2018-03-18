@@ -1,7 +1,6 @@
 'use strict';
 const appPackage = require(__dirname + '/package.json');
 const Hapi = require('hapi');
-const Hapiauthjwt = require('hapi-auth-jwt2');
 const colors = require('colors/safe');
 const Config = require('config');
 const utils = require('./services/utils/utils.js');
@@ -15,15 +14,9 @@ async function start() {
 
     utils.addModels();
 
-    const connectionConfig = Config.get('server.connection')
+    const server = new Hapi.Server(Config.util.toObject(Config.get('server.connection')))
 
-    const server = new Hapi.Server(JSON.parse(JSON.stringify(connectionConfig)))
-
-    await server.register({
-      plugin: Hapiauthjwt
-    })
-
-    utils.addPolicies(server)
+    await utils.addPolicies(server)
 
     utils.addRoute(server);
 

@@ -4,17 +4,17 @@ module.exports = {
     jwt.verify(request.headers.authorization, Config.get('server.auth.secretKey'), (err, decoded) => {
   
       if (typeof decoded === 'undefined') {
-        return false;
+        return { isValid: false };
       }
   
       User.findOne({_id: decoded.iduser}).exec((err, currentUser) => {
       
         if (!currentUser || err) {
-          return Boom.badRequest();
+          return { isValid: false };
         }
  
         request.currentUser = currentUser;
-        return true;
+        return { isValid: true };
       });
     });
   };`,
@@ -23,7 +23,7 @@ module.exports = {
     jwt.verify(request.headers.authorization, Config.get('server.auth.secretKey'), (err, decoded) => {
   
       if (typeof decoded === 'undefined') {
-        return false;
+        return { isValid: false };
       }
   
       User.findOne({_id: decoded.iduser, admin: true}).exec((err, currentUser) => {
@@ -33,7 +33,7 @@ module.exports = {
         }
   
         request.currentUser = currentUser;
-        return true;
+        return { isValid: true };
       });
     });
   };`,

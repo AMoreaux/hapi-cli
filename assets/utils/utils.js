@@ -6,7 +6,7 @@ const Config = require('config');
 
 module.exports = {
 
-  getFiles: function (path) {
+  getFiles(path) {
     path = path[path.length - 1] !== '/' ? path + '/' : path;
     let files = [];
     try {
@@ -20,7 +20,7 @@ module.exports = {
     });
   },
 
-  addRoute: function (server) {
+  addRoute(server) {
     this.getFiles('routes').forEach((routesFile) => {
 
       require(routesFile).forEach((route) => {
@@ -29,7 +29,9 @@ module.exports = {
     });
   },
 
-  addPolicies: function (server) {
+  async addPolicies(server) {
+    await server.register(require('hapi-auth-jwt2'));
+
     this.getFiles('policies').forEach((policyFile) => {
 
       let policy = require(policyFile);
@@ -40,16 +42,15 @@ module.exports = {
       server.auth.strategy(namePolicie, 'jwt', {
         key: Config.get('server.auth.secretKey'),
         validate: policy,
-        verifyOptions: {algorithms: ['HS256'], ignoreExpiration: true}
+        verifyOptions: {algorithms: ['HS256']}
       });
-
-      if (namePolicie === 'default') {
-        server.auth.default('default', 'jwt');
-      }
+      
     });
+    server.auth.default('default', 'jwt');
+
   },
 
-  addModels: function () {
+  addModels() {
     global.Models = {};
 
     this.getFiles('models').forEach((modelFile) => {
