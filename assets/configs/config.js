@@ -7,7 +7,18 @@ module.exports = (type) => {
       'connection': {
         'port': (type === 'production') ? 80 : 3001,
         'routes': {
-          'cors': true
+          'cors': {
+            'origin': ['*'],
+            'headers': [
+              'Access-Control-Allow-Origin',
+              'Access-Control-Allow-Headers',
+              'Origin',
+              'X-Requested-With',
+              'Content-Type',
+              'Authorization'
+            ],
+            'credentials': true
+          }
         }
       }
     }
